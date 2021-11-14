@@ -19,19 +19,12 @@ def matrix_multiplication (matrixA, matrixB):
             for j in range(n):
                 C[i][j] = A[i][j] + B[i][j]
         return C
-    # for i in range(0, len(matrixA), 2):
-    #     a = []
-    #     for row in matrixA:
-    #         a  = a + [row[i:i+2]]
-    #         if len(a) == 2:
-    #             print(a)
-    #             a = []
 
     n  = len(matrixA)
     if n <= 2: 
         return ikjMatrixProduct(matrixA, matrixB)
     else:
-            #initializing the new sub-matrices
+        #initializing the new sub-matrices
         newSize = n // 2
         a11 = [[0 for j in range(0, newSize)] for i in range(0, newSize)]
         a12 = [[0 for j in range(0, newSize)] for i in range(0, newSize)]
@@ -55,13 +48,10 @@ def matrix_multiplication (matrixA, matrixB):
                 b21[i][j] = matrixB[i + newSize][j]  # bottom left
                 b22[i][j] = matrixB[i + newSize][j + newSize]  # bottom right
 
-
-
         c11 = matrix_addition(matrix_multiplication(a11, b11), matrix_multiplication(a12, b21))
         c12 = matrix_addition(matrix_multiplication(a11, b12), matrix_multiplication(a12, b22))
         c21 = matrix_addition(matrix_multiplication(a21, b11), matrix_multiplication(a22, b21))
         c22 = matrix_addition(matrix_multiplication(a21, b12), matrix_multiplication(a22, b22))
-
 
 
         C = [[0 for j in range(0, n)] for i in range(0, n)]
@@ -73,11 +63,6 @@ def matrix_multiplication (matrixA, matrixB):
                 C[i + newSize][j + newSize] = c22[i][j]
         return C
                 
-
-
-    
-
-
 result = matrix_multiplication( [[1, 2, 3, 4], 
                             [1, 2, 3, 4],
                             [1, 2, 3, 4],
@@ -90,3 +75,42 @@ result = matrix_multiplication( [[1, 2, 3, 4],
                           ]  
                         )
 print(result)
+
+
+# def majorityElement():
+from itertools import chain
+def reverseBits(bits): 
+
+    def reverse(left, right):
+        if left >= right:
+            return bits[left]
+
+        mid = (left + right)//2
+        left_half = reverse(left, mid) #how do we know it's left to mid and mid+1 to right and not left to mid - 1 and mid to right
+        right_half = reverse(mid+1, right)#you can test with 1, 2 and 3 digits to be sure
+        return list(chain.from_iterable([right_half] + [left_half]))
+
+    return reverse(0, len(bits) - 1)  
+
+# print(reverseBits(['h', 'e', 'l', 'l', 'o']))
+
+# result = []
+# for i in range(10):
+#     for j in range(5):
+#         result.append(j)
+# print(result)
+
+# print([j for i in range(10) for j in range(5)])
+
+
+def reverseStringInPlace(s):
+    def reverse(left, right):
+        if left >= right:
+            return s
+
+        s[left], s[right] = s[right], s[left]
+        return reverse(left + 1, right - 1)
+        
+    return reverse(0, len(s) - 1)
+
+print(reverseStringInPlace(['h', 'e',  'l', 'o']))

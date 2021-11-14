@@ -19,7 +19,7 @@
 # selection_sort(L)
 # print(L)
 
-
+# NlogN extra space here, this can be rewritten to use N space
 def mergesort(list):
     def merge(right, left):
         i = j = k = 0

@@ -1,5 +1,5 @@
 import collections
-
+# https://leetcode.com/problems/implement-trie-prefix-tree/solution/
 class TrieNode:
     def __init__(self) -> None:
         self.is_word = False

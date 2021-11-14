@@ -10,6 +10,9 @@
 #         return 0
 #     return list[0] + recursive_sum(list[1:])
 
+string = "tunde"
+print(string[0:1])
+
 # print(recursive_sum([1,2,5]))
 
 
@@ -70,17 +73,32 @@
 #     for i in range(2):
 #         print( list2[i][j] )
  
-def longestCommonPrefix(strs) -> str:
-    l = zip(*strs)
-    # print(list(l))
-    prefix = ""
-    for i in l:
-        print(set(i))
-        if len(set(i))==1:
-            print('here')
-            prefix += i[0]
-        else:
-            break
-    return prefix
+# def longestCommonPrefix(strs) -> str:
+#     l = zip(*strs)
+#     # print(list(l))
+#     prefix = ""
+#     for i in l:
+#         print(set(i))
+#         if len(set(i))==1:
+#             print('here')
+#             prefix += i[0]
+#         else:
+#             break
+#     return prefix
 
-print(longestCommonPrefix(["flower","flow","flight"]))
+# print(longestCommonPrefix(["flower","flow","flight"]))
+
+
+def func(l):
+    # l.append(1)
+
+    l = l + [1]
+    print(l)
+    if len(l) < 10:
+        func(l)
+        print("returning...", len(l))
+    return l
+
+l = []
+print(func(l))
+# print(l)

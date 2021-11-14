@@ -103,6 +103,56 @@ class LinkedList:
         # print('Current size of linkedList is', size)
         return size
 
+    def reverse(self):
+        curr = self.head
+        newHead = None
+        while curr:
+            next = curr.next #note; next is a built-in function in python avoid assigning to it
+            curr.next = newHead 
+            newHead = curr
+            curr = next
+        self.head = newHead
+            
+    def reverseRecursive(self):
+        def reverse(head, newHead):
+            if not head:
+               return newHead
+            next = head.next
+            head.next = newHead 
+            return reverse(next, head)
+
+        self.head = reverse(self.head, None)
+    
+           
+def swapFirstTwoPairs(head):
+    # def swap(head):  
+    #     if not head or not head.next:
+    #         return head
+    #     temp = head
+    #     temp_2 = head.next.next
+    #     head = head.next
+    #     head.next = temp
+    #     temp.next = temp_2
+    #     return swap(head.next.next)
+   
+    if not head or not head.next:
+        return head
+
+    temp = head
+    temp_2 = head.next.next
+    head = head.next
+    head.next = temp
+    temp.next = temp_2
+    
+    
+    swapFirstTwoPairs(temp_2)
+    return head
+        
+        # if not self.head or not self.head.next:
+        #     return
+        # self.head ,self.head.next = self.head.next ,self.head
+        # self.head.next
+       
 
 
 
@@ -112,10 +162,15 @@ linked_list = LinkedList()
 # linked_list.deleteAtNthPosition(0)
 # linked_list.insertNodeAtNthPosition(12, 1)
 linked_list.insert(1)
-linked_list.insert(1)
+# linked_list.insert(1)
+linked_list.insert(2)
 linked_list.insert(3)
-linked_list.insertNodeAtNthPosition(12, 1)
-linked_list.removeTopNode()
+# linked_list.insert(4)
+# linked_list.reverse()
+linked_list.reverseRecursive()
+# print(swapFirstTwoPairs(linked_list.head))
+# linked_list.insertNodeAtNthPosition(12, 1)
+# linked_list.removeTopNode()
 
 # linked_list.insert(8)
 # linked_list.insertNodeAtBeginning(4)

@@ -134,11 +134,12 @@ inserttwo(62, root)
 inserttwo(82, root)
 inserttwo(99, root)
 inserttwo(202, root)
+print(search(2, root))
 
 
 # print(getHeight(root))
 
-level_order_print(root)
+# level_order_print(root)
 
 # print(search(7, root))
 # print(search(6, root))
@@ -156,5 +157,6 @@ level_order_print(root)
 # pre_order_print(root)
 
          
-        
+ch =  {"a": 1, "b": 2, "c": 3}
+print(list(ch.keys()))   
 
