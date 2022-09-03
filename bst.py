@@ -8,7 +8,7 @@ class TreeNode:
 def insert(data, root):
     if root is None:
         root = TreeNode(data)  
-    elif  data <= root.data:
+    elif data <= root.data:
         root.left = insert(data, root.left)
     else:
         root.right = insert(data, root.right)
@@ -109,11 +109,7 @@ def level_order_print(root):
         if current.left : queue.append(current.left)
         if current.right: queue.append(current.right)
         print(current.data)
-
     
-
-
-
 
 # r = TreeNode(3)
 # insert(7, r)
@@ -124,8 +120,10 @@ def level_order_print(root):
 
 
 root = TreeNode(6)
-inserttwo(7, root)
-inserttwo(4, root)
+insert(7, root)
+insert(4, root)
+print(root.left.data)
+
 inserttwo(2, root)
 inserttwo(12, root)
 inserttwo(22, root)
@@ -134,7 +132,7 @@ inserttwo(62, root)
 inserttwo(82, root)
 inserttwo(99, root)
 inserttwo(202, root)
-print(search(2, root))
+# print(search(2, root))
 
 
 # print(getHeight(root))
@@ -158,5 +156,65 @@ print(search(2, root))
 
          
 ch =  {"a": 1, "b": 2, "c": 3}
-print(list(ch.keys()))   
+# print(list(ch.keys()))   
 
+#To construct a bst from a preorder array of elements e.g [2,1,3], one could take each element in the array and call insert() 
+# to insert each. each insertion takes O(logN) in avg case and therefore this takes NlogN in total
+# There is a better approach to insert these elements in O(N) time 
+
+    # i = 0
+    # def bstFromPreorder(self, A, bound=float('inf')):
+    #     if self.i == len(A) or A[self.i] > bound:
+    #         return None
+    #     root = TreeNode(A[self.i])
+    #     self.i += 1
+    #     root.left = self.bstFromPreorder(A, root.val)
+    #     root.right = self.bstFromPreorder(A, bound)
+    #     return root
+
+
+    #or without maintaining i
+    
+    # def bstFromPreorder(self, A):
+    #     return self.buildTree(A[::-1], float('inf'))
+
+    # def buildTree(self, A, bound):
+    #     if not A or A[-1] > bound: return None
+    #     node = TreeNode(A.pop())
+    #     node.left = self.buildTree(A, node.val)
+    #     node.right = self.buildTree(A, bound)
+    #     return node
+
+
+
+    # bst from post order  https://leetcode.com/problems/serialize-and-deserialize-bst/solution/ data is a list
+
+        # def deserialize(self, data):
+        # """
+        # Decodes your encoded data to tree.
+        # """
+        # def helper(lower = float('-inf'), upper = float('inf')):
+        #     if not data or data[-1] < lower or data[-1] > upper:
+        #         return None
+            #   data = [1,3,2] for example
+        #     val = data.pop()
+        #     root = TreeNode(val)
+        #     root.right = helper(val, upper)
+        #     root.left = helper(lower, val)
+        #     return root
+
+
+# bst from preorder https://leetcode.com/problems/serialize-and-deserialize-bst/discuss/93171/Python-O(-N-)-solution.-easy-to-understand vals is a deque tobe able to pop from left in const time
+    # # O( N ) since each val run build once
+    # def deserialize(self, data):
+    #     vals = collections.deque(int(val) for val in data.split())
+
+    #     def build(minVal, maxVal):
+    #         if vals and minVal < vals[0] < maxVal:
+    #             val = vals.popleft()
+    #             node = TreeNode(val)
+    #             node.left = build(minVal, val)
+    #             node.right = build(val, maxVal)
+    #             return node
+
+    #     return build(float('-infinity'), float('infinity'))

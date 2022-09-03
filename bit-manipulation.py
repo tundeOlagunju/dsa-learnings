@@ -1,3 +1,4 @@
+import math
 #xor is its own inverse e.g
 # (x ^ y)^ y ==> x because y ^ y = 0 and x ^ 0 = x
 
@@ -48,7 +49,7 @@ def get_bit(value, index):
 
 def get_bit_2(value, index):
     return value & (1 << index) # 0 if the bit is not set 2^index if set. In this approach, rather than shifting the value itself, we shift 
-    #1 to match the index in the value e.g get_bit_2(101000 , 2) ==> we left shift 1 twice i.e 1 << 2 to give 100. At this point 1 is at index 2.
+    #1 to match the index in the value e.g get_bit_2(101000 , 2) ==> we left shift 1 twice i.e 1 << 2 to give 100. At this point 1 is at index 2(from the back)
     # we then evaluate 101000 & 000100 = 0 which means the bit is not set, if it was 1 we get 100 as result which is 2^index (2^2)
 
 # print(get_bit_2(32, 5))
@@ -90,7 +91,7 @@ def majority_element(nums):
     ret = ['1' if bit > len(nums)//2 else '0' for bit in bits]  
     return int(''.join(ret), 2)
    
-# print(majority_element([2,3,4,2,2]))
+print(majority_element([2,3,4,2,2]))
 
 # a << n = a * 2^N
 #convert binary to decimal
@@ -107,3 +108,62 @@ def convert(binary):
 def isPowerOf2(num):
     return num > 0 and num & (num- 1) == 0
 
+
+
+# for any number n, doing a bit-wise AND of n and n - 1flips the least-significant 1-bit in n to 0
+
+# n & n-1 filps the last set bit alone
+
+# How to get / isolate the rightmost 1-bit : x & (-x).
+
+# How to turn off (= set to 0) the rightmost 1-bit : x & (x - 1).
+
+# The idea behind both solutions will be the same: a power of two in binary representation is one 1-bit, followed by some zeros:
+
+# 1 = (00000001) 
+# 2 = (00000010) 
+# 4 = (00000100) 
+# 8 = (00001000) 
+
+
+
+#count 1s in bits
+def pop_count(x: int):
+    count = 0
+    while x != 0:
+        x &= x - 1 # zeroing out the least significant nonzero bit
+        count += 1
+    return count  
+
+print(pop_count(3))
+
+# think about the number of bits in 2**3 to 2**4 - 1 (they are all 4 bits) therefore log(2)n + 1 will give number of bits for that number
+# https://www.exploringbinary.com/number-of-bits-in-a-decimal-integer/
+def countBits(number): 
+    # log function in base 2
+    # take only integer part
+    # log(2)x = log(10)2 / log(10)x
+    
+    return int((math.log(number) /
+                math.log(2)) + 1)
+
+
+ # This is magic lool but it makes sense!!
+# https://leetcode.com/problems/sum-of-two-integers/
+
+
+#  XOR is a difference of two integers without taking borrow into account.
+# XOR is a key as well because it's a sum of two integers in the binary form without taking carry into account
+
+# Simulate borrow this way
+# Took me a while to understand why borrow = (~x & y) << 1 in Approach 1. Well, simply put, for each position where a bit of x is zero (~x) 
+# and (&) a bit of y is one (y), you have to borrow a 1 one position left of that position (<< 1).
+
+
+# Simulate carry this way
+# For everywhere x is 1  and (&) y is 1, carry 1 to the left << . i.e (x & y << 1)
+
+
+
+# Took me a while to understand why borrow = (~x & y) << 1 in Approach 1. Well, simply put, for each position where a bit of x is zero (~x) 
+# and (&) a bit of y is one (y), you have to borrow a 1 one position left of that position (<< 1).

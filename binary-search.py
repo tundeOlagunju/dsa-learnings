@@ -9,7 +9,7 @@ def binary_search(list, target):
     low = 0
 
     while hi >= low:
-        mid = (hi + low)//2 # Integer overflow is not possible in python
+        mid = (hi + low)//2 # Integer overflow is not possible in python #bracket is compulsory
         guess = list[mid]
         if guess == target:
             return mid
@@ -114,7 +114,7 @@ def binary_search_4(list, target):
     
     return low  # minimum index value that satisifes the condition in this case (even if there are dupliactes): guess >= target
 
-
+print(binary_search_4([1,2,3,4,5,5,5,5], 5))
 
 # Best template ever
 # Learn this, in most cases used for minimum value that satisfies the condition. Answer is always within the search space
@@ -153,7 +153,7 @@ def binary_search_6(array, target) -> int:
 list = [-1,0,1,2,3,4,5,6,7]
 list2 = [1,2,3,4,5,6,7]
 list3= [1,2,2,2,3,4]
-print(binary_search_6(list3, 3))
+# print(binary_search_6(list3, 3))
 
 
 
@@ -163,6 +163,43 @@ print(binary_search_6(list3, 3))
 
 # print(dict_default["key1"])
 
+# In these two cases, we are sure the target is in the array (even if the target is not in the array, we just check if nums[lo] == target else we return -1), we just reduce the search space intuitively to ensure we get the first occurence or last occurrence of the target
+# This gets the index of the last bad version e,g https://leetcode.com/problems/furthest-building-you-can-reach/solution/
+def binary_search_10(list, target):
+    hi = len(list) - 1  
+    low = 0
+
+    while hi > low:
+        mid = (hi + low + 1 )//2  #upper middle since we want the last occurrence when odd, return the only mid. when even, return the upper mid
+        guess = list[mid]
+        if guess <= target:
+            low = mid 
+        else: hi = mid - 1 
+    return low if list[low] == target else -1   
+
+print(binary_search_10([0,1,1,2,3,4,5,5,5,5], 1))
 
 
+# https://leetcode.com/problems/search-insert-position/discuss/423166/Binary-Search-101
+# This gets the index of the first bad version. We are sure the target is in the array. https://leetcode.com/problems/first-bad-version/solution/
+def binary_search_11(list, target):
+    hi = len(list) - 1  
+    low = 0
 
+    while hi > low:
+        mid = (hi + low)//2  #lower middl.when odd, return the only mid. when even, return the lower mid
+        guess = list[mid]
+        if guess >= target:
+            hi = mid     
+        else: low = mid + 1 
+    return low  
+
+print(binary_search_11([0,1,1,2,3,4,5,5,5], 1))
+
+# what if we are not sure the target is in the array
+
+
+# The short rule to remember is: if you used hi = mid - 1, then use the higher midpoint. If you used lo = mid + 1, then use the lower midpoint. If you used both of these, then you can use either midpoint. If you didn’t use either (i.e., you have lo = mid and hi = mid), 
+# then, unfortunately, your code is buggy, and you won’t be able to guarantee convergence.
+# higher midpoint = lo + hi +1/2
+#lower midpoint = lo + hi /2

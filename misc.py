@@ -98,8 +98,12 @@ def universityCareerFair(arrival, duration):
             ans, end = ans + 1, arr + dur
     return ans
     
+print('here')
+print(universityCareerFair([1, 3, 3, 4, 5, 7], 
+                           [2, 2, 1, 1, 2, 1])) # 5
 
-# print(universityCareerFair([1, 3, 3, 4, 5, 7], [2, 2, 1, 1, 2, 1])) # 4
+print(universityCareerFair([1, 2, 3], [9, 1, 1])) # 2
+
 # print(universityCareerFair([1, 2], [7, 3])) # 1
 # print(universityCareerFair([1, 3, 4, 6], [4, 3, 3, 2])) # 2
 
@@ -202,6 +206,7 @@ events = [[1,10],[2,2],[2,2],[2,2],[2,2]]
 aux = sorted(events, key = lambda x: (x[1], x[0]) )
 # print(aux)
 
+import collections
 import heapq
 def maxEvents(events):
         # sort according to start time
@@ -236,7 +241,7 @@ def maxEvents(events):
             day += 1
         return cnt
 
-maxEvents([[1,2],[1,2],[1,2],[2,3],[3,4]])
+# maxEvents([[1,2],[1,2],[1,2],[2,3],[3,4]])
 
 
 def canBeSplit(nums):
@@ -258,3 +263,360 @@ def canBeSplit(nums):
 
 
 print(canBeSplit([-1,2,2,-1]))
+
+
+
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+
+#
+# Complete the 'findValidDiscountCoupons' function below.
+#
+# The function is expected to return an INTEGER_ARRAY.
+# The function accepts STRING_ARRAY discounts as parameter.
+#
+
+def findValidDiscountCoupons(discounts):
+    output=[]
+    def isValid(discount, first, last, checked):
+        if discount[first] == discount[last]: return True
+        for i in range(first, len(discount), 2):
+            if i+1 < len(discount):
+                if discount[i] != discount[i+1]:
+                    if checked < 2:
+                        checked+=1
+                        isPalindrome(discount, i, last, checked)                 
+                    else: return False           
+        return True
+        
+    
+    def isPalindrome(discount, first=None, last=None, checked = 0):
+        if not first: first = 0
+        if not last:  last  = len(discount) - 1
+        while first >= 0 and last < len(discount) and first <= last and discount[first] == discount[last]:
+            first += 1
+            last -= 1
+        if discount[first] == discount[last]:
+            return True
+        else:
+            if checked < 2:
+                checked += 1 
+                isValid(discount, first, last, checked)
+            else: return False
+        
+    for discount in discounts:
+        if not discount: 
+            output.append(1)
+            continue
+        # if len(discount) > 2 and discount[0] == discount[-1]:
+        #     first = discount[0]
+        #     last = discount[-1]
+        #     discount = discount[1:len(discount)-1]
+ 
+        if isPalindrome(discount):
+            # if first == last:
+            output.append(1)
+            # else: output.append(0)
+        else: output.append(0)
+    
+    return output
+        
+        
+        
+    
+
+# def permute(l):
+#     def dfs(path, used, res):
+#         if len(path) == len(l):
+#             res.append(path) # note [:] make a deep copy since otherwise we'd be append the same list over and over
+#             return
+
+#         for i, letter in enumerate(l):
+#             # skip used letters
+#             if used[i]:
+#                 continue
+#             # add letter to permutation, mark letter as used
+#             path.append(letter)
+#             used[i] = True
+#             dfs(path, used, res)
+#             # remove letter from permutation, mark letter as unused
+#             path.pop()
+#             used[i] = False
+        
+#     res = []
+#     dfs([], [False] * len(l), res)
+#     return res
+
+# print(permute([1,2,3]))
+
+
+
+
+#     public List<String> generateParenthesis(int n) {
+#         List<String> res = new ArrayList<String>();
+#         dfs(res, new StringBuilder(), 0, 0, n);
+#         return res;
+#     }
+
+#     private void dfs(List<String> res, StringBuilder sb, int open, int close, int n) {
+#         if (sb.length() == 2 * n) {
+#             res.add(new String(sb));
+#             return ;
+#         }
+
+#         if (open < n) {
+#             sb.append("(");
+#             dfs(res, sb, open + 1, close, n);
+#             sb.deleteCharAt(sb.length() - 1);
+#         }
+#         if (close < open) {
+#             sb.append(")");
+#             dfs(res, sb, open, close + 1, n);
+#             sb.deleteCharAt(sb.length() - 1);
+#         }
+#     }
+# }
+
+
+
+logData = [['123 234 456']]
+for row in logData:
+    # print(row)
+    s = ''.join(row)
+    print(s)
+
+print(''.join(['a']))
+
+
+def hackerCards(collection, d):
+    collection = set(collection)
+    res = []
+    curSum = 0
+    # Write your code here
+    for i in range(1, d + 1):
+        if i not in collection and curSum + i <= d:
+            curSum += i
+            res.append(i)
+    return res
+
+
+# print(hackerCards([1,3,4], 7))
+
+# print( [[0]*5 for i in range(5)])
+# print( [[0 for _ in range(5)] for _ in range(5)])
+
+# print([[False for _ in range(5)] for i in range (4)])
+
+q= collections.deque([(1,2)])
+while q:
+    c= q.popleft()
+    # print(c)
+
+
+nums = [1,2,3,4]
+
+for i in range(len(nums)):
+    for j in range(i+1, len(nums)+1):
+        for k in range(i, j):
+            # print(k)
+            print(nums[k], end="")
+        print()
+
+
+
+class Chain:
+  def __init__(self,name,freq):
+    self.name = name
+    self.freq = freq
+
+    # def __lt__(self, other):
+    #     if self.label == other.label:
+    #         return self.cost > other.cost
+
+    # def __eq__(self, other: object) -> bool:
+    #     return self.label  == other.label and self.cost == other.cost
+
+
+
+# arr = [Chain("Tunde", 2), Chain("Yemi", 2), Chain("Yemi", 3), Chain("Bolu", 2), Chain("Bolu", 3)]
+# for i in (sorted(arr, key= lambda x: (x.name, x.freq) ,reverse = True)):
+#     print(i.name, i.freq)
+
+
+
+def find_grants_cap(grantsArray, newBudget):
+  """
+  grantsArray = [2, 100, 50, 120, 1000], newBudget = 190
+  
+  [2, 47, 47, 47, 47] ans = 47
+  
+  [2, 50, 100, 120, 1000]
+  
+  [38, 38, 38, 38, 38]
+  
+  2 < 38: (38 - 2) = 36/4 = 9
+  
+  [2, 47, 47, 47, 47]
+
+  [2, 4] n
+  """
+  
+  grantsArray.sort()
+  cap = float(newBudget) / float(len(grantsArray))
+  print(cap)
+  
+  for i, grant in enumerate(grantsArray):
+    if grant <= cap:
+      cap = cap + float((cap - grant)) / float((len(grantArray) - 1) - i)
+    
+    else: return cap
+
+
+
+
+#sort string
+string = "Tunde"
+''.join(sorted(string))
+
+# values of dictionary as list
+map = {'a': 'b', 'c': 'd'}
+list(map.values())
+
+# extract dictionary single key-value pair in variables
+d = {'a': 1}
+[(k, v)] = d.items()
+print(k, v)
+
+
+numbers = [1,2,3,4,5,6,7,7]
+
+def check_even(number):
+    return number % 2 == 0
+
+even_numbers = list(filter(check_even, numbers))
+even_numbers_2 = list(filter(lambda x: (x%2 == 0), numbers))
+print(even_numbers_2)
+
+def check_odd(x):
+    return (x % 2) == 0
+
+# l1 = list(range(1,20))
+# l2 = list(filter((lambda x:x>=5 and check_odd(x)), l1))
+# print(l2)
+
+def even_and_greater5(x):
+    return (x % 2) == 0 and x >= 5
+
+l1 = list(range(1,20))
+l2 = list(filter(even_and_greater5, l1))
+print(l2)
+
+
+
+# This post is in continuation of Online Assessment Test post (https://leetcode.com/discuss/interview-question/838686/yelp-oa-2020-filter-the-businesses-and-return-ordered-list/696180).
+
+# Interview Round 1
+
+# Problem :
+# Given a list of business_names (strings) and a searchTerm (string).
+# Return a list of business_names that contains searchTerm as prefix in the business_names.
+
+# E.g.
+# Example 1.
+# Input:
+
+# business_names[] = { "burger king", "McDonald's", "super duper burger's", "subway", "pizza hut"}
+# searchTerm = "bur"
+# Ouput:
+# ["burger king", "super duper burger's"]
+
+# Example 2
+# Input:
+
+# business_names[] = { "burger king", "McDonald's", "super duper burger's", "subway", "pizza hut"}
+# searchTerm = "duper bur"
+# Ouput:
+# ["super duper burger's"]
+
+# Expected to discuss the approach and implement the solution.
+# (Allowed to run and debug the code as many times as we want, in order to make it error free)
+
+
+
+
+
+# businesses = [
+#     {'vegan_only': True, 'price': 100, 'distance': 50},
+#     {'vegan_only': False, 'price': 100 }
+# ]
+
+class TrieNode:
+    def __init__(self):
+        self.word = None
+        self.is_word = False
+        self.children = collections.defaultdict(TrieNode)
+
+
+class Solution:
+
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        curr = self.root
+        for char in word:
+            curr = curr.children[char]
+        curr.is_word = True
+        curr.word = word
+    
+    def search(self, word):
+        curr = self.root
+        for char in word:
+            if char not in curr.children:
+                return False
+            curr = curr.children
+        return curr.is_word
+    
+    def prefix(self, pref):
+        curr = self.root
+        for char in pref:
+            if char not in curr.children:
+                return False
+            curr = curr.children
+        return True
+
+    
+
+business_names = ["McDonald's", "super duper burger's", "subway", "pizza hut", "burger king", "burrister", "fgbur", "burhiger", "Paul"]
+searchTerm = "bur"
+
+#names that start with bur
+#names that has bur in them
+#names without any
+
+def compare(item1, item2):
+    
+    if item1.startswith(searchTerm) and not item2.startswith(searchTerm):
+        return -1
+    if not item1.startswith(searchTerm) and item2.startswith(searchTerm):
+        print(item1, item2)
+        return 1
+    if searchTerm in item1 and not searchTerm in item2:
+        return -1
+    if searchTerm in item2 and not searchTerm in item1:
+        return 1
+    return 0
+
+
+from functools import cmp_to_key
+
+
+print(sorted(business_names, key=cmp_to_key(compare)))
+

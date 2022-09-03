@@ -46,8 +46,9 @@ def mergesort(list):
     mid = len(list)//2
     left = list[:mid]
     right = list[mid:]
-    mergesort(right)
     mergesort(left)
+    mergesort(right)
+
     merge(right, left) # merge two sorted list
 
 
@@ -72,6 +73,7 @@ def quicksort(list):
         return r # parttition index
    
     def quicksort(start, end):
+        # shuffle the array
         if start >= end: return
         p_index = partition(start, end)
         quicksort(start, p_index - 1)
@@ -206,3 +208,24 @@ def radix_sort(nums):
 # print(nums)
 
 
+def countSort(nums):
+    x = max(nums) + 1
+    countArray = [0] * x
+
+
+    for num in nums:
+        countArray[num] += 1
+    
+    
+    
+    index = 0
+    for i, count in enumerate(countArray):
+        for _ in range(count):
+            nums[index] =  i
+            index += 1
+
+
+    print(nums)
+
+
+countSort([1,2,3,4,1])

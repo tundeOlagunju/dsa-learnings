@@ -1,5 +1,6 @@
 import collections
 # https://leetcode.com/problems/implement-trie-prefix-tree/solution/
+# https://leetcode.com/problems/word-search-ii/ -- and boggle backtracking,trie,dfs
 class TrieNode:
     def __init__(self) -> None:
         self.is_word = False
@@ -25,6 +26,43 @@ class Trie:
                 return False
             current = current.children[c]
         return current.is_word
+    
+    # https://leetcode.com/problems/design-add-and-search-words-data-structure/
+    # search when '.' can be matched with any character
+    def search(self, word): 
+    
+        def dfs(word, curr):
+            for i, char in enumerate(word):
+                if char in curr.children:
+                    curr = curr.children[char]
+                elif char == '.':
+                    for child in curr.children.values():
+                        is_word = dfs(word[i+1:], child)
+                        if is_word:
+                            return True
+                    # if no nodes lead to answer from '.' dont give other nodes any chance, return false. Check mistake in prev solution submitted
+                    return False
+                # if character != . 
+                else: return False
+            return curr.is_word
+
+        return dfs(word, self.root)
+    
+    # search when '.' can be matched with any character -> recursive way
+    def search(self, word):
+        def dfs(node, i):
+            if i == len(word): return node.end_node
+               
+            if word[i] == ".":
+                for child in node.children:
+                    if dfs(node.children[child], i+1): return True
+                    
+            if word[i] in node.children:
+                return dfs(node.children[word[i]], i+1)
+            
+            return False
+    
+        return dfs(self.root, 0)
 
     def starts_with(self, prefix):
         current = self.root

@@ -1,15 +1,15 @@
 import heapq, itertools
 
 pq = []
-heapq.heappush(pq, (15, "task1"))
-heapq.heappush(pq, (15, "task1"))
-# heapq.heappush(pq, (15, "task2"))
-# heapq.heappush(pq, (15, "task8"))
-# heapq.heappush(pq, (15, "task6"))
+# heapq.heappush(pq, (15, "task1"))
+# heapq.heappush(pq, (15, "task1"))
+heapq.heappush(pq, (15, "task2"))
+heapq.heappush(pq, (15, "task8"))
+heapq.heappush(pq, (15, "task6"))
 
 while pq:
     priority, task = heapq.heappop(pq)
-    # print(priority, task)
+    print(priority, task)
 
 # counter as tie breaker --> return elements in the order they were added
 counter = itertools.count()

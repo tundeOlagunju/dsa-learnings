@@ -112,6 +112,11 @@ class LinkedList:
             newHead = curr
             curr = next
         self.head = newHead
+
+    def reverseLinkedList(self):
+        prev, curr = None, self.head
+        while curr:
+            curr.next, prev, curr = prev, curr, curr.next
             
     def reverseRecursive(self):
         def reverse(head, newHead):
@@ -122,6 +127,20 @@ class LinkedList:
             return reverse(next, head)
 
         self.head = reverse(self.head, None)
+
+    def kthToLast(self, k):
+        self.lent = 0
+        def kthToTheLast(head, counter):
+            if head is None:
+                self.lent = counter
+                return None
+            node = kthToTheLast(head.next, counter + 1)
+            if k == self.lent - counter - 1:
+                return head
+            return node
+        return kthToTheLast(self.head, 0)
+
+
     
            
 def swapFirstTwoPairs(head):
@@ -152,22 +171,52 @@ def swapFirstTwoPairs(head):
         #     return
         # self.head ,self.head.next = self.head.next ,self.head
         # self.head.next
-       
+
+# soft   
+def sumLists(head1, head2, carry):
+    if not head1 and not head2:
+        return None
+    if not head1:
+        return Node(head2.data + carry)
+    if not head2:
+        return Node(head1.data + carry)
+    else:
+        new_node = Node((head1.data + head2.data) % 10 + carry)
+        new_node.next = sumLists(head1.next, head2.next, (head1.data + head2.data) // 10)
+        return new_node
 
 
+def isListPalindrome(head):
+    pass
 
 
 linked_list = LinkedList()
 # linked_list.getSize()
 # linked_list.deleteAtNthPosition(0)
 # linked_list.insertNodeAtNthPosition(12, 1)
-linked_list.insert(1)
+linked_list.insert(7)
 # linked_list.insert(1)
-linked_list.insert(2)
-linked_list.insert(3)
+linked_list.insert(1)
+linked_list.insert(6)
+# linked_list.insert(3)
 # linked_list.insert(4)
+# linked_list.insert(5)
+
+
+
+linked_list2 = LinkedList()
+# linked_list.getSize()
+# linked_list.deleteAtNthPosition(0)
+# linked_list.insertNodeAtNthPosition(12, 1)
+linked_list2.insert(5)
+# linked_list.insert(1)
+linked_list2.insert(9)
+linked_list2.insert(2)
+# linked_list2.insert(3)
+# linked_list2.insert(4)
+# linked_list2.insert(5)
 # linked_list.reverse()
-linked_list.reverseRecursive()
+# linked_list.reverseRecursive()
 # print(swapFirstTwoPairs(linked_list.head))
 # linked_list.insertNodeAtNthPosition(12, 1)
 # linked_list.removeTopNode()
@@ -185,9 +234,15 @@ linked_list.reverseRecursive()
 # linked_list.deleteAtNthPosition(3)
 # linked_list.findData(444)
 
-linked_list.printLinkedList()
-print('Size of LinkedList is', linked_list.getSize())
+# linked_list.printLinkedList()
+# print('Size of LinkedList is', linked_list.getSize())
 
+# print(linked_list.kthToLast(0).data)
+
+res = sumLists(linked_list.head, linked_list2.head, 0)
+while res:
+    print(res.data)
+    res = res.next
 
 
 # head  = Node(5)
