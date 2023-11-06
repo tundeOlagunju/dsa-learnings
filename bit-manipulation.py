@@ -38,7 +38,7 @@ def is_odd(num):
 def is_bit_set(value, index):
     return (value >> index) & 1 == 1 #shifting all the bits infront of the interested index to the right. This shifting makes the interested 
     #bit to be the last bit/lsb. We then check if the last bit is set just like above
-print(is_bit_set(0b01001,0))
+print(is_bit_set(0b01001,12))
 
 # same as above but getting the bit
 def get_bit(value, index):
@@ -167,3 +167,51 @@ def countBits(number):
 
 # Took me a while to understand why borrow = (~x & y) << 1 in Approach 1. Well, simply put, for each position where a bit of x is zero (~x) 
 # and (&) a bit of y is one (y), you have to borrow a 1 one position left of that position (<< 1).
+
+
+
+print((1 << 128) >> 128 & 1)
+
+
+#https://leetcode.com/problems/sum-of-two-integers/solutions/84278/a-summary-how-to-use-bit-manipulation-to-solve-problems-easily-and-efficiently/
+
+
+
+mask2 = 0xFFFFFFFF
+print(bin (-6 & mask2))
+# print(bin (-42))
+# print(bin (42) + bin(1))
+
+# print(int("10101", 2)) #
+print(int("0xFFFFFFE2", 16))
+print(hex(4294967266))
+
+# print(len("11111111111111111111111111111100"))
+
+num = -20
+unsigned = num if num >= 0 else (1 << 32) + num #signed to unsigned
+print(format(unsigned, '032b'))
+print(bin(unsigned))
+
+# print(format(-6, '05b'))
+
+# print(bin(-20))
+# print(int("11100", 2))
+
+#https://leetcode.com/problems/convert-a-number-to-hexadecimal/description/
+
+#https://stackoverflow.com/questions/7822956/how-to-convert-negative-integer-value-to-hex-in-python
+#https://stackoverflow.com/questions/20766813/how-to-convert-signed-to-unsigned-integer-in-python
+#https://www.cs.cornell.edu/~tomf/notes/cps104/twoscomp.html
+#https://en.wikipedia.org/wiki/Two%27s_complement
+def tohex(val, nbits):
+  return hex((val + (1 << nbits)) % (1 << nbits))
+  #return hex((val + (1 <<  32)) % (1 << 32)) using hex() adds Ox to the front of the result
+  #return format((val + (1 <<  32)) % (1 << 32), 'x') gives the result without Ox
+
+#OR
+
+def toHex(self, val):
+    if val < 0:
+        return format((val + (1 <<  32)), 'x') #signed to 32 bit unsigned if -ve (32 bit is integer)
+    else: return format(val, 'x')

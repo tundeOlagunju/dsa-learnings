@@ -431,24 +431,47 @@ for i in range(len(nums)):
 
 
 
-class Chain:
-  def __init__(self,name,freq):
-    self.name = name
-    self.freq = freq
+class Chain(object):
+    def __init__(self, name, freq):
+        self.name = name
+        self.freq = freq
 
-    # def __lt__(self, other):
-    #     if self.label == other.label:
-    #         return self.cost > other.cost
+    # def __eq__(self, other):
+    #     return self.name  == other.name and self.freq == other.freq
 
-    # def __eq__(self, other: object) -> bool:
-    #     return self.label  == other.label and self.cost == other.cost
+    
+    def __lt__(self, other):
+        # if self.label == other.label:
+        if self.freq == other.freq:
+            return self.name < other.name
+        return self.freq < other.freq
 
 
-
-# arr = [Chain("Tunde", 2), Chain("Yemi", 2), Chain("Yemi", 3), Chain("Bolu", 2), Chain("Bolu", 3)]
+arr2 = [Chain("Tunde", 2), Chain("Yemi", 2), Chain("Yemi", 3), Chain("Bolu", 2), Chain("Bolu", 3)]
+d = sorted(arr2)
+# print([(c.name, c.freq) for c in d])
 # for i in (sorted(arr, key= lambda x: (x.name, x.freq) ,reverse = True)):
 #     print(i.name, i.freq)
 
+
+class Card(object):
+
+    def __init__(self, rank, suit):
+        self.rank = rank
+        self.suit = suit
+
+    def __eq__(self, other):
+        return self.rank == other.rank and self.suit == other.suit
+
+    def __lt__(self, other):
+        return self.rank < other.rank
+
+hand = [Card(10, 'H'), Card(2, 'h'), Card(12, 'h'), Card(13, 'h'), Card(14, 'h')]
+hand_order = [c.rank for c in hand]  # [10, 2, 12, 13, 14]
+
+hand_sorted = sorted(hand)
+hand_sorted_order = [(c.rank, c.suit) for c in hand_sorted]  
+print(hand_sorted_order)
 
 
 def find_grants_cap(grantsArray, newBudget):
@@ -474,7 +497,7 @@ def find_grants_cap(grantsArray, newBudget):
   
   for i, grant in enumerate(grantsArray):
     if grant <= cap:
-      cap = cap + float((cap - grant)) / float((len(grantArray) - 1) - i)
+      cap = cap + float((cap - grant)) / float((len(grantsArray) - 1) - i)
     
     else: return cap
 
@@ -492,7 +515,7 @@ list(map.values())
 # extract dictionary single key-value pair in variables
 d = {'a': 1}
 [(k, v)] = d.items()
-print(k, v)
+# print(k, v)
 
 
 numbers = [1,2,3,4,5,6,7,7]
@@ -502,7 +525,7 @@ def check_even(number):
 
 even_numbers = list(filter(check_even, numbers))
 even_numbers_2 = list(filter(lambda x: (x%2 == 0), numbers))
-print(even_numbers_2)
+# print(even_numbers_2)
 
 def check_odd(x):
     return (x % 2) == 0
@@ -516,7 +539,7 @@ def even_and_greater5(x):
 
 l1 = list(range(1,20))
 l2 = list(filter(even_and_greater5, l1))
-print(l2)
+# print(l2)
 
 
 
@@ -619,4 +642,428 @@ from functools import cmp_to_key
 
 
 print(sorted(business_names, key=cmp_to_key(compare)))
+
+
+
+# welsh_alphabet = ["a", "b", "c", "ch", "d", "dd", "e", "f", "ff", "g", "ng", "h", "i", "l", "ll", "m", "n", "o", "p", "ph", "r", "rh", "s", "t", "th", "u", "w", "y"]
+
+
+
+# You are given a list of lists of words. Given a word within the data, write a function that can predict the next following word
+
+"""
+{"I": {"am": 2}}
+"""
+from collections import Counter
+def predict_word(data, word):
+    # freq = {}
+
+    # prev = data[0][0]
+    # for j in range(len(data)):
+    #     for i in range(len(data[j])):
+    #         if i == 0 and j == 0: continue
+    #         curr_word = data[j][i]
+    #         if prev in freq:
+    #             next_dict = freq[prev]
+    #             if curr_word in next_dict:
+    #                 next_dict[curr_word] += 1
+    #             else: next_dict[curr_word] = 1
+    #         else: 
+    #             freq[prev] = {curr_word: 1}
+    #         prev = curr_word
+            
+    freq = collections.defaultdict(Counter)
+    for words in data:    
+        for i, j in zip(words[:-1], words[1:]):
+            freq[i][j] += 1
+            
+
+    # print( max(freq['I'], key = freq['I'].get, default = '') )
+    # print( sorted(freq[word], key = freq[word].get)[-1] )
+    #return sorted(freq[word].items(), key = lambda x: x[1], reverse=True)[0][0]
+
+
+data = [
+["I", "am", "Sam"],
+["Green", "I", "am"],
+["I", "like", "Green"],
+]
+
+# print(predict_word(data, "I"))
+
+
+def remove_idxs(arr, ranges):
+    max_size = len(arr)
+    lookup_arr = [0] * max_size
+    for range in ranges:
+        start, end = range[0], range[1]
+        # why not just +1 or -1
+        # because we may have overlapping ranges
+        # like [5,8], [5, 10]
+        if start < max_size:
+            lookup_arr[start] += 1
+        if end < max_size:
+            lookup_arr[end] -= 1
+
+    
+    sum_so_far = 0
+    result = []
+    for idx, num in enumerate(arr):
+        sum_so_far += lookup_arr[idx]
+        if sum_so_far == 0:
+            result.append(num)
+    return result
+
+
+remove_idxs([-8, 3, -5, 1, 51, 56, 0, -5, 29, 43, 78, 75, 32, 76, 73, 76], [[5, 8], [10, 13], [3, 6], [20, 25]])
+
+
+
+# print("".join(sorted("hia")))
+
+
+#sparse search -> ["at", "", "", "", "ball", "", "", "car", "", "", "dad", "", ""]
+def sparse_search(strings, target):
+
+    def search(first, last):
+        if first > last:
+            return -1
+        mid = (last + first) // 2
+        
+        if not strings[mid]:
+            #adjust mid
+            lo, hi = mid, mid
+            while True and lo >= first and hi <= last:
+                hi += 1
+                lo -= 1
+                if lo >= first and strings[lo]:
+                    mid = lo
+                    break
+                if hi <= last and strings[hi]:
+                    mid = hi 
+                    break
+            
+        if target == strings[mid]:
+            return mid
+        elif target < strings[mid]:
+            return search(first, mid - 1)
+        else: return search(mid + 1, last)
+    
+    return search(0, len(strings) - 1)
+
+# print(sparse_search(["dad", "", ""], "dadd"))
+
+
+# Depth of a String
+# find string at highest depth.
+
+# //example 
+# input: "((AB)(((CD))))"
+# output: depth: 4 and string: "CD"
+
+
+"""
+Given a special alphabet (alien dictionary?) sort a list of words in ascedning order alphabetically:
+
+alphabet: "a", "b", "c", "ch", "d", "dd", "e", "f", "ff", "g", "ng", "h", "i", "l", "ll", "m", "n", "o", "p", "ph", "r", "rh", "s", "t", "th", "u", "w", "y"
+
+Input: "ddr",  "nah", "dea", "dd", "ngah"
+
+Output: "dea", "dd", "ddr", "ngah", "nah"
+"""
+
+welsh_alphabet = ["a", "b", "c", "ch", "d", "dd", "e", "f", "ff", "g", "ng", "h", "i", "l", "ll", "m", "n", "o", "p", "ph", "r", "rh", "s", "t", "th", "u", "w", "y"]
+
+#let's revise sorting by key argument
+def reversed(character):
+    return -ord(character)
+
+single_word = "abuja"
+print(sorted(single_word, reverse=True))
+print(sorted(single_word, key=reversed))
+
+words = ["tunde", "yemi", "yinka", "bolu"]
+
+#infact this is what python does naturally
+def reversed_word(word):
+    return [-ord(c) for c in word]
+
+print(sorted(words, reverse=True))
+print(sorted(words, key=reversed_word))
+
+#okay, back to welsh alphabet
+#we can convert or cast each word to a list of numbers (based on each character) and python can sort by that
+
+input = ["nah", "dea", " ", "dd", "ngah"]
+# print("tunde"[0: 2])
+
+welsh_dict = {word: i for i, word in enumerate(welsh_alphabet)}
+
+#clarifying questions; how should we handle empty characters, spaces etc
+def convert_to_welsh(word):
+    tokens = []
+    i = 0
+    while i < len(word):
+        if i + 1 < len(word) and word[i : i + 2] in welsh_dict:
+            tokens.append(welsh_dict[word[i : i + 2]])
+            i += 2
+        else:
+            tokens.append(welsh_dict[word[i]])
+            i += 1
+    
+    return tokens
+
+# print(sorted(input, key = convert_to_welsh))
+
+# print(ord(" "))
+# print(sorted(["tunde", " "]))
+        
+        
+
+
+
+import math
+
+def drawLine(x0,y0,x1,y1):
+  # Imagine this is implemented. You don't need to implement
+  pass
+  
+
+def drawHTree(x, y, length, depth):
+    
+    if depth == 0: return
+    
+    x0 = x - length/2
+    x1 = x + length/2
+
+    y1 = y + length/2 
+    y0 = y - length/2
+
+    #draw horizontal
+
+    drawLine(x0, y, x1, y) # this draw the horizontal line. From (x0,y) to (xy,y) the y is the middle of H
+
+    #draw the left verical line
+
+    drawLine(x0, y0, x0, y1)
+
+    #draw the right vertical line
+
+    drawLine(x1, y0, x1, y1)
+    
+    # reducing (dividing) the length of the line by √2
+    
+    #call drawHree for the 4 endpoints
+    drawHTree(x0, y1, length / math.sqrt(2), depth - 1)
+    drawHTree(x0, y0, length / math.sqrt(2), depth - 1)
+    drawHTree(x1, y0, length / math.sqrt(2), depth - 1)
+    drawHTree(x1, y1, length / math.sqrt(2), depth - 1)
+    
+    #thanks a lot for the diagrams; I did not even understand the question
+
+
+
+#https://leetcode.com/discuss/interview-question/900369/Bloomberg-or-Onsite-or-Top-K-Stocks -- assume topK can be called multiple times
+
+#Insert, remove, get index, bisect right and left, find element inside list, are all log(n) operations. Its similar to treeset and multiset in java and c++, implemented with AVL tree or red black tree
+#https://grantjenks.com/docs/sortedcontainers/sortedlist.html
+from sortedcontainers import SortedDict, SortedList
+
+class Stock:
+
+    def __init__(self, name, volume):
+        self.name = name
+        self.volume = volume
+
+    def __lt__(self, other):
+        if self.volume == other.volume:
+            return self.name < other.name
+        return self.volume > other.volume
+        
+    def __eq__(self, other):
+        return self.name == other.name and self.volume == other.volume
+
+    def __hash__(self):
+        return hash((self.name, self.volume))
+    
+
+class TopKStock:
+    def __init__(self):
+        #I want to use SortedDict as SortedList, making all values as None lol because SortedList API is not easy to use to check if an element is present
+        #You can actually use sorted list too check leader board solution below
+        self.sorted_stocks = SortedDict()
+        self.stock_to_curr_vol = {}
+    
+    
+    def add_stock(self, name, volume):
+      
+        if name in self.stock_to_curr_vol:
+            pre_vol = self.stock_to_curr_vol[name]
+
+            old_stock = Stock(name, pre_vol)
+            new_stock = Stock(name, volume)
+
+            del self.sorted_stocks[old_stock]
+            self.sorted_stocks[new_stock] = None
+
+            del self.stock_to_curr_vol[name]
+            self.stock_to_curr_vol[name] = volume
+
+        else:
+           new_stock = Stock(name, volume)
+           self.sorted_stocks[new_stock] = None
+           self.stock_to_curr_vol[name] = volume
+
+    
+    def getTopK(self, K):
+        topK = []
+        for stock in self.sorted_stocks.keys():
+            topK.append((stock.name, stock.volume))
+            K -= 1
+            if K == 0: break
+
+        return topK
+    
+
+topkStock = TopKStock()
+topkStock.add_stock("AMZN", 50)
+topkStock.add_stock("GGLE", 56)
+topkStock.add_stock("AMZN", 90)
+topkStock.add_stock("AMZN", 60)
+topkStock.add_stock("GGLE", 96)
+
+
+
+print(topkStock.getTopK(4))
+
+
+
+#Hash and eq
+class A:
+    def __key(self):
+        return (self.attr_a, self.attr_b, self.attr_c)
+
+    def __hash__(self):
+        return hash(self.__key())
+
+    def __eq__(self, other):
+        if isinstance(other, A):
+            return self.__key() == other.__key()
+        return NotImplemented
+    
+
+
+from sortedcontainers import SortedList 
+
+class Player:
+
+    def __init__(self, playerId, score):
+        self.playerId = playerId
+        self.score = score
+
+    def __lt__(self, other):
+        if self.score == other.score:
+            return self.playerId < other.playerId
+        return self.score > other.score
+        
+    def __eq__(self, other):
+        return self.playerId == other.playerId and self.score == other.score
+
+    def __hash__(self):
+        return hash((self.playerId, self.score))
+
+
+#https://leetcode.com/problems/design-a-leaderboard/
+class Leaderboard:
+
+    def __init__(self):
+        #I want to use SortedDict as SortedList, making all values as None lol because SortedList API is not easy to use to check if an element is present
+        self.sorted_players = SortedList()
+        self.player_to_curr_score = {}
+        
+
+    def addScore(self, playerId: int, score: int) -> None:
+        if playerId in self.player_to_curr_score:
+            
+            pre_score = self.player_to_curr_score[playerId]
+
+            old_player = Player(playerId, pre_score)
+            new_player = Player(playerId, score + pre_score)
+
+            self.sorted_players.discard(old_player)
+            self.sorted_players.add(new_player)
+
+            del self.player_to_curr_score[playerId]
+            self.player_to_curr_score[playerId] = score + pre_score
+            
+        else:
+            new_player = Player(playerId, score)
+            self.sorted_players.add(new_player)
+            self.player_to_curr_score[playerId] = score
+            
+    def top(self, K: int) -> int:
+        total = 0
+        for player in self.sorted_players:
+            total += player.score
+            K -= 1
+            if K == 0: break
+
+        return total
+        
+
+    def reset(self, playerId: int) -> None:
+        pre_score = self.player_to_curr_score[playerId]
+        old_player = Player(playerId, pre_score)
+        self.sorted_players.discard(old_player)
+        
+        del self.player_to_curr_score[playerId]
+
+
+
+
+# K messed 
+# Your peer may be tempted to use a standard sorting algorithm such as quicksort or mergesort. However, doing so ignores the fact that the array is nearly-sorted (k-sorted) and yields suboptimal solutions.
+# If your peer is stuck, ask them how the fact the array is k-sorted can help divide the array into smaller overlapping chunks (windows) and then sort them in an iterative way.
+# This question is a good opportunity to check if your peer remembers Insertion Sort and Heapsort. In general, it’s an opportunity for both of you to brush up on these sorting algorithms. A good source to refresh your memory is the Sorting Algorithm Article on Wikipedia.
+# Watch out for correct calculations and usage of array indices.
+# If your peer can’t think of a solution, help their thought process by asking what they can do with a sliding window of size k+1.
+
+
+class Node:
+    def __init__(self, data):
+        self.left = None
+        self.right = None
+        self.data = data
+
+
+
+def insert(data, root):
+    if not root:
+        return Node(data)
+
+    if data <= root.data:
+        root.left = insert(data, root.left)
+    else:
+        root.right = insert(data, root.right)
+    
+    return root
+
+# def search(data, root):
+#     if not root:
+#         return None
+    # if data < root.data:
+    #     return search(data, root.left)
+    # elif data > root.data:
+    #     return search(data, root.right)
+    # else: 
+    #     return root
+
+root = Node(6)
+insert(7, root)
+insert(4, root)
+insert(3, root)
+insert(19, root)
+print(root.right.right.data)
+
+# search(7, root)
 
