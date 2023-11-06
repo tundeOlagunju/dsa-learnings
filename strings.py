@@ -21,8 +21,19 @@ def isUniqueBitMan(string):
         checker = checker | 1 << ord(ch) - ord('a')
     return True
 
+def isUniqueBitMan2(string):
+    checker2 = 1 << 128
+    for ch in string:
+        # is bit set
+        # return (value >> index) & 1 == 1 
+        if checker2 >> ord(ch) & 1 > 0:
+            return False
+        # set bit
+        checker2 = checker2 | 1 << ord(ch)
+    return True
+
 # print(isUnique('abd'))
-# print(isUniqueBitMan('abd'))
+print(isUniqueBitMan2('abdddd'))
 
 def isPermutationOfOther(string1, string2):
     # if 2 strings are permutation of each other, they must have identical character counts
@@ -106,4 +117,46 @@ def spreadSheetEncodingFunctional(column_id):
 
 print(spreadSheetEncoding("B"))
 
-print("hello"[4:909])
+def palindrome_partition(string):
+    found_odd = False
+    char_count = [0] * 128
+
+    for char in string:
+        if not char: continue #skip empty chars
+        char_count[ord(char)] += 1
+    
+    for count in char_count:
+        if count & 1 == 1:
+            if found_odd == False:
+                found_odd = True
+            else: return False
+    
+    return True
+
+print(palindrome_partition(""))
+
+def oneAway(string1, string2):
+    if len(string1) != len(string2):
+        if len(string2) < len(string1): string1, string2 = string2, string1
+        for i, char in enumerate(string2):
+            if string2[:i] + string2[i + 1: len(string2)] == string1:
+                return True
+        return False
+    else:
+        ptr = 0
+        distance_away = 0
+        while ptr < len(string1):
+            if string1[ptr] != string2[  ptr]:
+                distance_away += 1
+                if distance_away > 1:
+                    return False
+            ptr += 1
+        
+        return distance_away <= 1
+
+print(oneAway("pake", "pale"))
+
+
+
+
+        

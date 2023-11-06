@@ -9,7 +9,7 @@ heapq.heappush(pq, (15, "task6"))
 
 while pq:
     priority, task = heapq.heappop(pq)
-    print(priority, task)
+    # print(priority, task)
 
 # counter as tie breaker --> return elements in the order they were added
 counter = itertools.count()
@@ -20,9 +20,9 @@ heapq.heappush(pq, (15, next(counter), "task2"))
 heapq.heappush(pq, (15, next(counter), "task8"))
 heapq.heappush(pq, (15, next(counter), "task6"))
 
-while pq:
-    priority, counter, task = heapq.heappop(pq)
-    # print(priority, counter, task)
+# while pq:
+#     priority, counter, task = heapq.heappop(pq)
+#     print(priority, counter, task)
 
 class SearchNode:
     def __init__(self, label, cost):
@@ -34,7 +34,7 @@ class SearchNode:
             return self.cost > other.cost
     
     def __eq__(self, other: object) -> bool:
-        return self.label  == other.label and self.cost == other.cost
+        return self.label == other.label and self.cost == other.cost
 
 class CostAndNode:
     def __init__(self, cost, node):
@@ -43,7 +43,7 @@ class CostAndNode:
 
     # do not compare nodes
     def __lt__(self, other):
-        return self.cost < other.cost
+        return self.cost >  other.cost
 
 h = []
 heapq.heappush(h, (1, SearchNode("Aje", "32")))

@@ -1,4 +1,7 @@
-from collections import deque;
+#https://leetcode.com/problems/recover-binary-search-tree/discuss/32539/Tree-Deserializer-and-Visualizer-for-Python --> tree visualizer
+
+from collections import deque
+import collections;
 class TreeNode:
     def __init__(self, data) :
         self.right = None
@@ -122,7 +125,7 @@ def level_order_print(root):
 root = TreeNode(6)
 insert(7, root)
 insert(4, root)
-print(root.left.data)
+# print(root.left.data)
 
 inserttwo(2, root)
 inserttwo(12, root)
@@ -218,3 +221,175 @@ ch =  {"a": 1, "b": 2, "c": 3}
     #             return node
 
     #     return build(float('-infinity'), float('infinity'))
+
+
+
+
+    
+def buildTreeWithMinimalHeight(sortedArray, l, r):
+    if l > r:
+        return
+    mid = (l + r ) // 2
+    root = TreeNode(sortedArray[mid])
+    root.left = buildTreeWithMinimalHeight(sortedArray, l, mid - 1)
+    root.right = buildTreeWithMinimalHeight(sortedArray, mid + 1, r)
+    return root
+
+
+res = buildTreeWithMinimalHeight([1,2,3,4], 0, 3)
+# level_order_print(res)
+
+
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+def listOfDepths(root):
+
+    queue = collections.deque([root])
+    res = []
+    while queue:
+        head = Node()
+        currNode = head
+        for _ in range(len(queue)):
+            curr = queue.popleft()
+
+            currNode.next = Node(curr.data)
+            currNode = currNode.next
+
+            if curr.left: queue.append(curr.left)
+            if curr.right: queue.append(curr.right)
+        
+        res.append(head.next)
+    
+    return res
+
+
+class Solution(object):
+    def allPathsSourceTarget(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        target = len(graph) - 1
+        results = []
+
+        def backtrack(curr_node, path):
+            # if we reach the target, no need to explore further.
+            if curr_node == target:
+                results.append(list(path))
+                return
+            # explore the neighbor nodes one after another.
+            for next_node in graph[curr_node]:
+                path.append(next_node)
+                backtrack(next_node, path)
+                path.pop()
+        # kick of the backtracking, starting from the source node (0).
+        path = [0]
+        backtrack(0, path)
+
+        return results      
+    
+
+
+   
+def weaveList(left, right, prefix, result):
+    if not left or not right:
+        res = prefix[:]
+        res.extend(left)
+        res.extend(right)
+        result.append(res)
+        return
+    
+    prefix.append(left.pop(0))
+    weaveList(left, right, prefix, result)
+    left.append(prefix.pop())
+
+    prefix.append(right.pop(0))
+    weaveList(left, right, prefix, result)
+    right.append(prefix.pop())
+
+def allSequences(start):
+    if not start:
+        return [[]]
+    
+    left_seq = allSequences(start.left)
+    right_seq = allSequences(start.right)
+    # print(left_seq, right_seq)
+
+    result = []
+    for left in left_seq:
+        for right in right_seq:
+            weaved = []
+            weaveList(left, right, [start.data], weaved)
+            result.extend(weaved)   
+    return result
+
+
+root2 = TreeNode(6)
+insert(7, root2)
+insert(4, root2)
+
+bst_sequences = allSequences(root2)
+# print(bst_sequences)
+
+
+# For every non-root node in a binary tree, return the new height of the binary tree if the subtree rooted at that node were deleted.You are given a pointer to the root of the tree, you need to return a list of pair of integers {X, F(X)} for every node X in the given tree. Here, F(X) represents the updated height of the original tree if the subtree rooted at node X is deleted.
+
+# The order of the elements in the result list doesn't matter.
+# In the following example, X = 5 i.e. subtree rooted at node 5 is deleted.
+
+	# 	  1                 1
+	#    /\\               /\\
+	#   2   3   ===>      2  3
+	#      /\\              /
+	# 	4    5            4
+	# 		 \\
+	# 		  6
+
+    # The goal is to compute this for all non-root nodes and thus arrive at: [{2, 3}, {3, 1}, {4, 3}, {5, 2}, {6, 2}].
+
+
+def binaryTreeAfterDeletion(tree_root):
+
+    height_map = collections.defaultdict(int)
+    result = []
+
+    def computeNodeHeight(start):
+        if not start:
+            return 0
+        
+        left_height = computeNodeHeight(start.left)
+        right_height = computeNodeHeight(start.right)
+        height = max(left_height, right_height) + 1
+        height_map[start] = height
+        return height
+    
+    def computeNodeHeightAfterDeletion(start, level, max_height_so_far):
+        if not start:
+            return
+
+        if level > 0:
+            result.append((start.data, max_height_so_far))
+        
+      
+        computeNodeHeightAfterDeletion(start.left, level + 1, max(max_height_so_far, height_map[start.right] + level))
+        computeNodeHeightAfterDeletion(start.right, level + 1, max(max_height_so_far, height_map[start.left] + level))
+
+    computeNodeHeight(tree_root)
+    computeNodeHeightAfterDeletion(tree_root, 0, 0)
+    return result
+
+
+
+root4 = TreeNode(6)
+insert(7, root4)
+insert(9, root4)
+insert(4, root4)
+print(binaryTreeAfterDeletion(root4))
+
+
+        

@@ -1,4 +1,4 @@
-from collections import defaultdict, deque
+from collections import defaultdict, deque, Counter
 # Adjacency list
 class Graph:
     def __init__(self, graph=None, edges=None, directed=False) -> None:
@@ -247,7 +247,7 @@ g2 = {2: {0, 4},
 graph2 = Graph(g2, directed=True)
 graph2.topologicalSort(6)
 
-# A good question on adj matrix on Leetcode is FriendCircles
+# A good question on adj matrix on Leetcode is FriendCircles(Number of Provinces)
 class Graph2:
     # adjacency matrix
     def __init__(self, vertex_num, edge_num) -> None:
@@ -271,7 +271,7 @@ class Graph2:
             visited.add(current)
             for neighbour in range(self.vertex_num):
                 if neighbour not in visited and self.graph_mat[current][neighbour] == 1:
-                    visited.add(neighbour)
+                    visited.add(neighbour) #its actually important to visit here for bfs
                     queue.append(neighbour)
     
     def dfs(self, start):
@@ -444,7 +444,7 @@ class UnionFind:
     def root2(self, x):
         if x == self.parent[x]:
             return x
-        self.parent[x] = self.find(self.parent[x])
+        self.parent[x] = self.root2(self.parent[x])
         return self.parent[x]
 
     # optimization: union by size, always attach the root of smaller tree to the root of larger one (in terms of size i.e number of nodes). Keeps the tree
@@ -468,4 +468,74 @@ class UnionFind:
     # reflexive(p is connected to itself)
     def connected(self, p, q):
         return self.root(p) == self.root(q)
+
+
+"""
+Given an int n. You can use only 2 operations:
+- multiply by 2
+- integer division by 3 (e.g. 10 / 3 = 3)
+Find the minimum number of steps required to generate n from 1.
+
+Example 1:
+
+Input: 10
+Output: 6
+Explanation: 1 * 2 * 2 * 2 * 2 / 3 * 2
+6 steps required, as we have used 5 multiplications by 2, and one division by 3.
+Example 2:
+
+Input: 3
+Output: 7
+Explanation: 1 * 2 * 2 * 2 * 2 * 2 / 3 / 3
+7 steps required, as we have used 5 multiplications by 2 and 2 divisions by 3.
+
+Follow up: Use BFS
+"""
+
+def min_steps(num):
+
+    def dfs(start, level):
+        if start == num:
+            return level
+        
+        dfs(start * 2, level + 1)
+        dfs(start // 3, level + 1)
+
+
+    dfs(1, 0)
+
+
+# https://leetcode.com/discuss/interview-question/413734/Bloomberg-or-Re-order-Array-Based-on-Dictionary
+
+def reOrderArray(employees, order):
+    graph = defaultdict(list)
+    in_degree = Counter()
+
+
+
+            
+            
+
+
+
+
+
+
+
+employees = [['John', 'Manager'], ['Sally', 'CTO'], ['Sam', 'CEO'], ['Drax', 'Engineer'], ['Bob', 'CFO'], ['Daniel', 'Engineer']]
+order = {'CTO': 'CEO', 'Manager': 'CTO', 'Engineer' : 'Manager', 'CFO' : 'CEO'}
+reOrderArray(employees, order)
+
+
+
+"""
+Remove ints from an array.
+
+Example:
+
+Input: array = [-8, 3, -5, 1, 51, 56, 0, -5, 29, 43, 78, 75, 32, 76, 73, 76], ranges = [[5, 8], [10, 13], [3, 6], [20, 25]]
+Output: [-8, 3, -5, 29, 43, 76, 73, 76]
+Is there a corresponding or relative leetcode question?
+"""
+
 

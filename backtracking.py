@@ -191,7 +191,7 @@ def combinationSumDups(nums, target):
     build_combination([], 0 )
     return res
 
-print(combinationSumDups([10,1,2,7,6,1,5], 8))
+# print(combinationSumDups([10,1,2,7,6,1,5], 8))
 
 
 def partition(string):
@@ -219,8 +219,40 @@ def partition(string):
     return res
 
 
-print(partition("aabb"))
+# print(partition("aabb"))
 
 
+def length_of_longest_substring(str1, k):
+  # TODO: Write your code here
+  maxRepeatLetterCount = 0
+  count = 0
+  freq_map = {}
+  longest = 0
+  window_start = 0
+  
+  for window_end in range(len(str1)):
+    right = str1[window_end]
 
+    if right in freq_map:
+      freq_map[right] += 1
+    else: freq_map[right] = 1
+    maxRepeatLetterCount = max(maxRepeatLetterCount, freq_map[right])
+
+
+    
+    #prep for next batch
+    remaining = (window_end + 1 - maxRepeatLetterCount)
+    if remaining > k:
+      left = str1[window_start]
+      window_start += 1
+      if freq_map[left] == maxRepeatLetterCount: 
+        maxRepeatLetterCount -= 1
+      freq_map[left] -= 1
+
+    longest = max(longest, window_end - window_start + 1)
+
+  return longest
+
+
+print(length_of_longest_substring("aaaaaaabccbb", 2))
 
