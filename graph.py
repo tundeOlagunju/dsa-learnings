@@ -195,15 +195,6 @@ class Graph:
             return None #there is a cycle
         return topological_order
 
-       
-
-
-
-
-
-
-
-
     def __str__(self):
         return '{}({})'.format(self.__class__.__name__, dict(self._graph))
 
@@ -504,6 +495,32 @@ def min_steps(num):
 
     dfs(1, 0)
 
+import collections
+
+def min_steps_2(num):
+
+    queue = collections.deque()
+    queue.append(1)
+    level = 0
+
+    while queue:
+        size = len(queue)
+        for _ in range(size):
+            curr = queue.popleft()
+            if curr == num:
+                return level
+            
+            queue.append(curr * 2)
+            queue.append(curr // 3)
+        
+        level += 1
+    
+    return level
+
+print(min_steps_2(3))
+
+
+
 
 # https://leetcode.com/discuss/interview-question/413734/Bloomberg-or-Re-order-Array-Based-on-Dictionary
 
@@ -515,13 +532,6 @@ def reOrderArray(employees, order):
 
             
             
-
-
-
-
-
-
-
 employees = [['John', 'Manager'], ['Sally', 'CTO'], ['Sam', 'CEO'], ['Drax', 'Engineer'], ['Bob', 'CFO'], ['Daniel', 'Engineer']]
 order = {'CTO': 'CEO', 'Manager': 'CTO', 'Engineer' : 'Manager', 'CFO' : 'CEO'}
 reOrderArray(employees, order)
@@ -538,4 +548,10 @@ Output: [-8, 3, -5, 29, 43, 76, 73, 76]
 Is there a corresponding or relative leetcode question?
 """
 
+
+
+
+
+
+            
 

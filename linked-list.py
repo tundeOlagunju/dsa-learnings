@@ -256,3 +256,109 @@ while res:
 
 # print(countNode(head))
 
+
+
+class LinkedList2:
+    def __init__(self):
+        self.head = None
+    
+    def insert(self, data):
+        new_node = Node(data)
+        if not self.head: 
+            self.head = new_node
+            return
+        current_node = self.head
+        while current_node.next:
+            current_node = current_node.next
+        current_node.next = new_node
+    
+    def insertNodeAtBeginning(self, data, cloned):
+        new_node = Node(data)
+        new_node.next = cloned.head
+        cloned.head = new_node
+        return cloned
+    
+    def reverse(self):
+        cloned = LinkedList2()
+        while self.head:
+            cloned = self.insertNodeAtBeginning(self.head.data, cloned)
+            self.head = self.head.next
+        return cloned
+    
+    def as_list(self):
+
+        as_list = []
+        while self.head:
+            as_list.append(self.head.data)
+            self.head = self.head.next
+        
+        return as_list
+
+
+ll2 = LinkedList2()
+ll2.insert(3)
+ll2.insert(4)
+ll2.insert(5)
+
+print(ll2.reverse().as_list())
+# print(ll2.as_list())
+
+
+def complete_inventory(whx, x, why, y):
+    placement_index = len(whx) - 1
+    whx_pointer = x - 1
+    why_pointer = y - 1
+
+    while whx_pointer >= 0 and why_pointer >= 0:
+        if whx[whx_pointer] > why[why_pointer]:
+            whx[placement_index] = whx[whx_pointer]
+            whx_pointer -= 1
+        else:
+            whx[placement_index] = why[why_pointer]
+            why_pointer -= 1
+        placement_index -= 1
+
+    while whx_pointer >= 0:
+        whx[placement_index] = whx[whx_pointer]
+        whx_pointer -= 1
+        placement_index -= 1
+    
+    while why_pointer >= 0:
+        whx[placement_index] = why[why_pointer]
+        why_pointer -= 1
+        placement_index -= 1
+    
+    return whx
+
+
+print(complete_inventory([2,3,4,0,0,0], 3, [1,5,9], 3))
+
+
+
+def findSpy(num_people, has_information) -> int:
+    if num_people <= 0: return -1
+
+    spy = -1
+
+    in_degree = [0] * num_people
+    out_degree = [0] * num_people
+    
+    for person1, person2 in has_information:
+        in_degree[person2 - 1] += 1
+        out_degree[person1 - 1] += 1
+    
+    print(in_degree, out_degree)
+    for i, degree in enumerate(out_degree):
+        if degree == num_people - 1:
+            spy = i + 1
+            break
+    
+    if spy == -1:
+        return 0
+    
+    return spy if in_degree[spy - 1] == 0 else 0
+
+
+print(findSpy(2, [[1,2]]))
+
+print([[0 for _ in range(3)] for _ in range(3)])

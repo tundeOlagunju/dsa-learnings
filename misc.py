@@ -1048,22 +1048,140 @@ def insert(data, root):
     
     return root
 
-# def search(data, root):
-#     if not root:
-#         return None
-    # if data < root.data:
-    #     return search(data, root.left)
-    # elif data > root.data:
-    #     return search(data, root.right)
-    # else: 
-    #     return root
+def search(data, root):
+    if not root:
+        return None
+    if data < root.data:
+        return search(data, root.left)
+    elif data > root.data:
+        return search(data, root.right)
+    else: 
+        return root
 
 root = Node(6)
 insert(7, root)
 insert(4, root)
 insert(3, root)
 insert(19, root)
-print(root.right.right.data)
+# print(root.right.right.data)
 
-# search(7, root)
+# print(search(199, root).data)
+
+
+w = list('word')
+
+w[0] = 'p'
+print(w)
+
+def collatz(n):
+    length = 1
+    while n != 1:
+        if n % 2 == 0:
+            n = n//2
+        else: n = 3 * n + 1
+        length += 1
+    
+    return length
+
+
+def max_collatz_sequence(n):
+    print(n)
+    print()
+    N = n
+    maxi = 1
+    memo = {}
+    # c = 4
+    # 3->10->5->16->8->4->2->1
+    #            ^
+    # memo = {16: 5, 4: 3, 1: 1}
+    while n != 1:
+        if n in memo:
+            maxi += (memo[n] - 1)
+            n = 1
+            print("here")
+        else:
+            if n % 2 == 0:
+                n //= 2
+            else:
+                n = 3 * n + 1
+            maxi += 1
+    memo[N] = maxi
+
+    print(memo)
+
+    # return memo[n]
+
+
+# print(collatz(3))
+#print(max_collatz_sequence(2))
+
+
+
+
+# print(collatz(32))
+
+# print(5.23 == int(5.23))
+
+
+class CollatzConjecture:
+    def __init__(self):
+        self.memo = {}
+    
+    def calculate_i(self, n, comb=[]):
+        if n in self.memo:
+            return self.memo[n]
+        
+        while n > 1:
+            comb.append(n)
+            if n % 2 == 0:
+                n = n//2
+            else: 
+                n = 3 * n + 1
+            
+        comb.append(1)
+        self.populateMemo(comb)
+        return len(comb)
+
+    def calculate_r(self, n):
+        if n == 1:
+            res = 1
+        elif n % 2 == 0:
+            res = 1 + self.calculate_r(n // 2) #T(n/2) + 1 if even
+        else:
+            res = 1 + self.calculate_r(3 * n + 1) #T(3n + 1) if odd
+        
+        self.memo[n] = res
+        return res
+
+    def populateMemo(self, comb):
+        comb_length = len(comb)
+        for i in range(comb_length):
+            curr = comb[i]
+            if curr not in self.memo:
+                self.memo[curr] = comb_length - i
+
+
+
+x = CollatzConjecture()
+print(x.calculate_i(3))
+print(x.calculate_r(3))
+
+
+def collatz2(num, memo={1: 0}):
+    if num in memo:
+        print("here")
+        return memo[num]
+
+    if num % 2 == 0:
+        res = 1 + collatz2(num//2, memo)
+    else:
+        res = 1 + collatz2(3*num + 1, memo)
+        
+
+    memo[num] = res
+    # print(memo)
+    return res
+
+
+# print(collatz2(3))
 
