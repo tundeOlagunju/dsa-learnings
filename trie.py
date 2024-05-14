@@ -18,6 +18,14 @@ class Trie:
             current = current.children[c]
         current.is_word = True
         current.word = word
+    
+    def starts_with(self, prefix):
+        current = self.root
+        for c in prefix:
+            if c not in current.children:
+                return False
+            current = current.children[c]
+        return True
 
     def search(self, word):
         current = self.root
@@ -64,13 +72,7 @@ class Trie:
     
         return dfs(self.root, 0)
 
-    def starts_with(self, prefix):
-        current = self.root
-        for c in prefix:
-            if c not in current.children:
-                return False
-            current = current.children[c]
-        return True
+
     
     def delete(self, word):
         if not self.search(word):

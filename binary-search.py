@@ -163,6 +163,9 @@ list3= [1,2,2,2,3,4]
 
 # print(dict_default["key1"])
 
+#Binary search can be used whenever the list is sorted on the property we’re searching for. In furthest building you can reach
+#it's sorted by reachaility
+
 # In these two cases, we are sure the target is in the array (even if the target is not in the array, we just check if nums[lo] == target else we return -1), we just reduce the search space intuitively to ensure we get the first occurence or last occurrence of the target
 # This gets the index of the last bad version e,g https://leetcode.com/problems/furthest-building-you-can-reach/solution/
 def binary_search_10(list, target):

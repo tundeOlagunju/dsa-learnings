@@ -1185,3 +1185,4 @@ def collatz2(num, memo={1: 0}):
 
 # print(collatz2(3))
 
+

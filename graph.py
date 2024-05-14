@@ -414,6 +414,7 @@ n = Node(0)
 # print(n.neighbors)
 
 #Union Find algorithm can be improved by path with compression and union by rank/size (dont confuse with height)
+#Union Find by size (or weighted quick union) is log N for union and log N for connected snce we are keeping the tree balanced. although O(N) for the constructor
 #When using the combination of union by rank and the path compression optimization, the find operation will take O(α(N)) time on average. Since union and connected both make calls to find and all other operations require constant time, union and connected functions will also take O(α(N)) time on average.
 #N is the number of vertices in the graph. α refers to the Inverse Ackermann function. In practice, we assume it's a constant. In other words, O(α(N)) is regarded as O(1) on average.
 class UnionFind:
@@ -425,7 +426,7 @@ class UnionFind:
     #path compression improves the time complexity of any node to constant time!!
     def root(self, i):
         while self.parent[i] != i:
-            self.parent[i] = self.parent[self.parent[i]] #make every other node in path points to its grandparent (path compression)
+            #self.parent[i] = self.parent[self.parent[i]] #make every other node in path points to its grandparent (path compression)
             i = self.parent[i]
         return i
         
@@ -444,7 +445,7 @@ class UnionFind:
         rootP = self.root(p)
         rootQ = self.root(q)
 
-        if rootP == rootQ: return 
+        if rootP == rootQ: return #already connected or in the same component
 
         if self.size[rootP] > self.size[rootQ]:
             self.parent[rootQ] = rootP

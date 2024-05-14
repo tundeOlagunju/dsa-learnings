@@ -74,7 +74,7 @@ def quicksort(list):
     def quicksort(start, end):
         # shuffle the array
         if start >= end: return
-        p_index = partition(start, end) #since we know the P_index(which is the element in position)
+        p_index = partition(start, end) #since we know the P_index(which is the element in the right position)
         quicksort(start, p_index - 1) #sort its right part and then
         quicksort(p_index + 1, end)#its left 
     
@@ -302,6 +302,8 @@ print(sort_welsh(["ddr",  "nah", "dea", "dd", "ngah"])) #mapped (but not modifie
 # print(sorted( [[25, 20], [16, 0, 11]] ) )
 
 
+
+
 def sort_english(words):
     
     def sort_by_index(word):
@@ -396,4 +398,24 @@ def lower(c):
     return c.lower()
 
 print(sorted(names, key = lower))
+
+
+# https://stackoverflow.com/questions/25815377/sort-list-by-frequency
+
+print(sorted(["123", "19", "15"], key = int))
+#if you are afraid the int will overflow such as in Java cases like ["28287838938383389393", "7373836372727878738378"]
+print(sorted(["123", "156", "19", "15"], key = lambda string: (len(string), [int(char) for char in string]))) 
+print(sorted(["123", "156", "19", "15"], key = lambda string: (len(string), string))) #sort by length else use natural order
+
+class StringNum:
+    def __init__(self, string):
+        self.string_num = string
+    
+    def __lt__(self, other):
+        if len(self.string_num) == len(other.string_num):
+            return self.string_num < other.string_num
+        return len(self.string_num) < len(other.string_num)
+
+d = (sorted([StringNum("123"), StringNum("156"), StringNum("19"), StringNum("15")]))
+print([x.string_num for x in d ])
 
