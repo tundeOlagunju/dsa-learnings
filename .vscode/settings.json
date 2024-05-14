@@ -1,0 +1,24 @@
+{// Controls if quick suggestions should show up while typing
+"editor.quickSuggestions": {
+    "comments": "off",
+    "strings": "off",
+    "other": "off"
+},
+
+// Controls if suggestions should be accepted with "Enter" - in addition to "Tab". Helps to avoid ambiguity between inserting new lines and accepting suggestions.
+"editor.acceptSuggestionOnEnter": "off",
+
+// Controls the delay in ms after which quick suggestions will show up.
+"editor.quickSuggestionsDelay": 10,
+
+// Enable word based suggestions
+"editor.wordBasedSuggestions": "off",
+
+// Controls if the editor should automatically close brackets after opening them
+"editor.autoClosingBrackets": "never",
+
+// Controls if suggestions should automatically show up when typing trigger characters
+"editor.suggestOnTriggerCharacters": false,
+"editor.autoClosingQuotes": "never",
+"editor.autoSurround": "never"
+}
